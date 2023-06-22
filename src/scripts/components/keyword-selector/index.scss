@@ -1,0 +1,31 @@
+@import "@styles/main";
+
+.h5p-keywords-selector-container {
+  display: block;
+  margin: 0.5em 0 0;
+  padding: 0;
+
+  .h5p-keyword-selector {
+    display: inline-block;
+    border: 2px solid $border-color;
+    padding: 0.3em;
+    margin: 0.5em 0.5em 0.5em 0;
+    border-radius: 4px;
+    transition: border 400ms ease-out;
+    cursor: pointer;
+
+    &.active, &:hover {
+      border-color: $border-color-active;
+      background-color: $border-color-active-bg;
+    }
+
+    input {
+      position: absolute;
+      left: -999999px;
+    }
+  }
+}
+
+.h5p-keywords-error {
+  color: $error-color;
+}

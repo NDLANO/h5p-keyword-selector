@@ -1,0 +1,31 @@
+{
+  "title": "keywords",
+  "description": "Keywords selector for activer reader mode",
+  "majorVersion": 1,
+  "minorVersion": 0,
+  "patchVersion": 0,
+  "runnable": 1,
+  "author": "Ravi Majithia",
+  "license": "MIT",
+  "machineName": "H5P.Keywords",
+  "embedTypes": [
+    "iframe"
+  ],
+  "preloadedJs": [
+    {
+      "path": "dist/h5p-keywords.js"
+    }
+  ],
+  "preloadedCss": [
+    {
+      "path": "dist/h5p-keywords.css"
+    }
+  ],
+  "editorDependencies": [
+    {
+      "machineName": "H5PEditor.KeywordExtractor",
+      "majorVersion": 1,
+      "minorVersion": 0
+    }
+  ]
+}

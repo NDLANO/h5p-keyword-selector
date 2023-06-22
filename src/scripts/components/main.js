@@ -1,0 +1,110 @@
+import Util from '@services/util';
+import Globals from '@services/globals';
+import KeywordSelector from '@components/keyword-selector';
+import '@styles/main.scss';
+
+/**
+ * Main DOM component incl. main controller.
+ */
+export default class Main {
+  /**
+   * @class
+   * @param {object} [params] Parameters.
+   * @param {object} [callbacks] Callbacks.
+   * @param {object} [callbacks.onProgressed] Callback when user progressed.
+   */
+  constructor(params = {}, callbacks = {}) {
+    this.params = Util.extend({
+    }, params);
+
+    this.callbacks = Util.extend({
+      onProgressed: () => {}
+    }, callbacks);
+
+    this.globalExtras = Globals.get('extras');
+    this.currentState = 'inProgress';
+
+    this.dom = document.createElement('div');
+    this.dom.classList.add('h5p-keywords-main-wrapper');
+
+    const text = document.createElement('div');
+    text.classList.add('h5p-keyword-text');
+    text.id = `h5p-keyword-text-${this.globalExtras.subContentId}`;
+    text.innerHTML = this.params.contentText;
+    this.dom.appendChild(text);
+
+    // Initialize validation wrapper
+    this.initKewordSelector();
+
+    // Resize content type
+    Globals.get('resize')();
+  }
+
+  /**
+   * Initialize the status bar for remaining characters in the field.
+   */
+  initKewordSelector() {
+    const self = this;
+    this.keywordSelector = new KeywordSelector(
+      {
+        keywords: this.params.keywords,
+        selectedKeywords: this.params.previousState,
+        i10n : {
+          errorMessage: this.params.i10n.errorMessage,
+        }
+      },
+      {
+        onClick: () => {
+          self.callbacks.onProgressed('answered');
+        }
+      }
+    );
+    this.dom.append(this.keywordSelector.getDOM());
+  }
+
+  /**
+   * Get DOM.
+   * @returns {HTMLElement} Content DOM.
+   */
+  getDOM() {
+    return this.dom;
+  }
+
+  /**
+   * Return H5P core's call to store current state.
+   * @returns {object} Current state.
+   */
+  getCurrentState() {
+    return {
+      content: this.keywordSelector
+        .getSelectedeKeywords()
+        .map((keyword) => keyword.value),
+      progress: this.currentState,
+    };
+  }
+
+  /**
+   * Used for contracts.
+   * Resets the complete task back to its' initial state.
+   */
+  resetTask() {
+    this.keywordSelector.resetKeywords();
+  }
+
+  /**
+   * Get response.
+   * @returns {string} Response.
+   */
+  getResponse() {
+    return this.keywordSelector.getSelectedeKeywords();
+  }
+
+  /**
+   * Calculate score on based of selection.
+   * @returns {boolean} Score.
+   */
+  calculateScore() {
+    return this.keywordSelector.getSelectedeKeywords().length > 0
+      ? this.params.maxScore : 0;
+  }
+}

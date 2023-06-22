@@ -1,0 +1,55 @@
+[
+  {
+    "name": "keywordExtractorGroup",
+    "label": "Keyword extractor",
+    "type": "group",
+    "importance": "low",
+    "expanded": true,
+    "widget": "KeywordExtractor",
+    "fields": [
+      {
+        "name": "contentText",
+        "label": "Content",
+        "description": "Reference text block for users",
+        "type": "text",
+        "importance": "medium",
+        "optional": true,
+        "widget": "textarea",
+        "addButton": "generateKeywords"
+      },
+      {
+        "name": "customKeywords",
+        "description": "Add custom keywords of your choice, separated by comma.",
+        "type": "text",
+        "label": "Add keywords",
+        "importance": "low",
+        "optional": true,
+        "addButton": "addKeywords"
+      },
+      {
+        "name": "keywords",
+        "description": "Below listed keywords will available for users.",
+        "label": "Keywords",
+        "type": "text",
+        "importance": "medium",
+        "optional": true
+      }
+    ]
+  },
+  {
+    "name": "l10n",
+    "type": "group",
+    "label": "User interface",
+    "common": true,
+    "fields": [
+      {
+        "name": "errorMessage",
+        "type": "text",
+        "label": "Empty keywords list",
+        "description": "Text will appear to users when there are no keywords to select.",
+        "default": "There are no keywords to select.",
+        "importance": "low"
+      }
+    ]
+  }
+]

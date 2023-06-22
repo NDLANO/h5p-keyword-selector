@@ -1,0 +1,35 @@
+@import "./main";
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.h5p-keywords {
+  background-color: $color-background;
+  color: $color-text;
+  width: 100%;
+
+  .h5p-keywords-main {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0.75em;
+
+    .h5p-introduction{
+      margin: 1em;
+      font-size: 1.125em;
+      line-height: 1;
+      text-align: left;
+      width: 100%;
+    }
+
+    .h5p-keywords-main-wrapper {
+      width: 100%;
+    }
+  }
+}

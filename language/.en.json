@@ -1,0 +1,14 @@
+{
+  "semantics": [
+    {
+      "label": "User interface",
+      "fields": [
+        {
+          "label": "Empty keywords list",
+          "description": "Text will appear to users when there are no keywords to select.",
+          "default": "There are no keywords to select."
+        }
+      ]
+    }
+  ]
+}
