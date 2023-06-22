@@ -26,6 +26,7 @@
     "babel-loader": "^9.1.2",
     "css-loader": "^6.8.1",
     "eslint": "^8.42.0",
+    "eslint-config-ndla-h5p": "github:ndlano/eslint-config-ndla-h5p",
     "eslint-plugin-jsdoc": "^46.2.6",
     "mini-css-extract-plugin": "^2.7.6",
     "regenerator-runtime": "^0.13.11",
