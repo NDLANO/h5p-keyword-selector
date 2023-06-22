@@ -1,5 +1,7 @@
 import './index.scss';
 import Globals from '@services/globals';
+import Util from '@services/util';
+
 export default class KeywordSelector {
   /**
    * @class
@@ -12,7 +14,11 @@ export default class KeywordSelector {
     this.params = params;
 
     // Sanitize callbacks
-    this.callbacks = callbacks || {};
+    this.callbacks = Util.extend({
+      onClick: () => {},
+      onkeydown: () => {}
+    }, callbacks);
+
     this.globalExtras = Globals.get('extras');
 
     if (!this.params.keywords) {
@@ -31,9 +37,13 @@ export default class KeywordSelector {
       'aria-describedby',
       `h5p-keyword-text-${this.globalExtras.subContentId}`
     );
-    this.dom.addEventListener('click', (event) => {
-      this.handleSelection(event);
-      this.callbacks.onClick(event);
+
+    // add event listeners for the keyword selection
+    ['click', 'keydown'].forEach((event) => {
+      this.dom.addEventListener(event, (e) => {
+        this.handleSelection(e);
+        this.callbacks.onClick(e);
+      });
     });
 
     // Create keyword checkboxes
@@ -94,6 +104,10 @@ export default class KeywordSelector {
    * @returns {void}
    */
   handleSelection(event) {
+    if (event.type === 'keydown' && !['Space', 'Enter'].includes(event.code)) {
+      return;
+    }
+
     const origin = event.target;
     // Do not handle parent originated event
     if (origin === this) {

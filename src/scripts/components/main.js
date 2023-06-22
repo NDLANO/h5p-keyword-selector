@@ -56,6 +56,9 @@ export default class Main {
       {
         onClick: () => {
           self.callbacks.onProgressed('answered');
+        },
+        onkeydown: () => {
+          self.callbacks.onProgressed('answered');
         }
       }
     );
