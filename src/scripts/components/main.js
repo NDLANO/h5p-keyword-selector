@@ -44,7 +44,6 @@ export default class Main {
    * Initialize the status bar for remaining characters in the field.
    */
   initKewordSelector() {
-    const self = this;
     this.keywordSelector = new KeywordSelector(
       {
         keywords: this.params.keywords,
@@ -55,10 +54,10 @@ export default class Main {
       },
       {
         onClick: () => {
-          self.callbacks.onProgressed('answered');
+          this.callbacks.onProgressed('answered');
         },
         onkeydown: () => {
-          self.callbacks.onProgressed('answered');
+          this.callbacks.onProgressed('answered');
         }
       }
     );

@@ -14,7 +14,11 @@
     transition: border 400ms ease-out;
     cursor: pointer;
 
-    &.active, &:hover, &:focus-visible {
+    &.active, &:focus-visible {
+      border-color: $border-color-active;
+    }
+
+    &:hover{
       border-color: $border-color-active;
       background-color: $border-color-active-bg;
     }
