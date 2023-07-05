@@ -6,6 +6,13 @@
     "importance": "low",
     "expanded": true,
     "widget": "KeywordExtractor",
+    "keywordExtractor": {
+      "buttons": {
+        "contentText": "generateKeywords",
+        "customKeywords": "addKeywords"
+      },
+      "keywords": "keywords"
+    },
     "fields": [
       {
         "name": "contentText",
@@ -14,8 +21,7 @@
         "type": "text",
         "importance": "medium",
         "optional": true,
-        "widget": "textarea",
-        "addButton": "generateKeywords"
+        "widget": "textarea"
       },
       {
         "name": "customKeywords",
@@ -23,8 +29,7 @@
         "type": "text",
         "label": "Add keywords",
         "importance": "low",
-        "optional": true,
-        "addButton": "addKeywords"
+        "optional": true
       },
       {
         "name": "keywords",
