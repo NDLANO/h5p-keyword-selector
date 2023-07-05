@@ -184,9 +184,9 @@ export default class Keywords extends H5P.EventDispatcher {
     definition.correctResponsesPattern = [];
     definition.choices = [];
     const userResponse = this.params.keywordExtractorGroup.keywords.split(',');
-    for (var i = 0; i < userResponse.length; i++) {
+    for (let i = 0; i < userResponse.length; i++) {
       definition.choices[i] = {
-        id: i + '',
+        id: `${i}`,
         description: {
           'en-US': H5P.jQuery('<div>' + userResponse[i] + '</div>').text(),
         },
@@ -273,4 +273,4 @@ export default class Keywords extends H5P.EventDispatcher {
 }
 
 /** @constant {string} Default description */
-Keywords.DEFAULT_DESCRIPTION = 'Keywords';
+Keywords.DEFAULT_DESCRIPTION = 'Keyword selector';
