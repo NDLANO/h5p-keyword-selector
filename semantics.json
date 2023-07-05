@@ -37,7 +37,8 @@
         "label": "Keywords",
         "type": "text",
         "importance": "medium",
-        "optional": true
+        "optional": true,
+        "maxLength": 5000
       }
     ]
   },
