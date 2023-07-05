@@ -17,7 +17,7 @@
       {
         "name": "contentText",
         "label": "Content",
-        "description": "Reference text block for users",
+        "description": "Reference text block for users.",
         "type": "text",
         "importance": "medium",
         "optional": true,

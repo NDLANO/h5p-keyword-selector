@@ -1,6 +1,23 @@
 {
   "semantics": [
     {
+      "label": "Keyword extractor",
+      "fields": [
+        {
+          "label": "Content",
+          "description": "Reference text block for users."
+        },
+        {
+          "description": "Add custom keywords of your choice, separated by comma.",
+          "label": "Add keywords"
+        },
+        {
+          "description": "Below listed keywords will available for users.",
+          "label": "Keywords"
+        }
+      ]
+    },
+    {
       "label": "User interface",
       "fields": [
         {
