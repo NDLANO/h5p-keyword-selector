@@ -8,8 +8,8 @@
     "widget": "KeywordExtractor",
     "keywordExtractor": {
       "buttons": {
-        "contentText": "generateKeywords",
-        "customKeywords": "addKeywords"
+        "contentText": "extractKeywords",
+        "customKeywords": "parseKeywordsComma"
       },
       "keywords": "keywords"
     },
