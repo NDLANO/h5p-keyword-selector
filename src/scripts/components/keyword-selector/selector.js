@@ -1,8 +1,8 @@
-import './index.scss';
+import './selector.scss';
 import Globals from '@services/globals';
 import Util from '@services/util';
 
-export default class KeywordSelector {
+export default class Selector {
   /**
    * @class
    * @param {object} params Parameter from editor.
@@ -24,7 +24,7 @@ export default class KeywordSelector {
     if (!this.params.keywords) {
       // Create error message
       this.dom = document.createElement('div');
-      this.dom.classList.add('h5p-keywords-error');
+      this.dom.classList.add('h5p-keyword-selector-error');
       this.dom.innerHTML = this.params.i10n.errorMessage;
       return;
     }
@@ -32,7 +32,7 @@ export default class KeywordSelector {
 
     // Create div element that wrapper checkbox
     this.dom = document.createElement('ul');
-    this.dom.classList.add('h5p-keywords-selector-container');
+    this.dom.classList.add('h5p-keyword-selector-selector-container');
     this.dom.setAttribute(
       'aria-describedby',
       `h5p-keyword-text-${this.globalExtras.subContentId}`
@@ -50,7 +50,7 @@ export default class KeywordSelector {
     this.checkboxes = [];
     this.params.keywords.forEach((keyword) => {
       const checkboxContainer = document.createElement('li');
-      checkboxContainer.classList.add('h5p-keyword-selector');
+      checkboxContainer.classList.add('h5p-keyword-selector-selector');
       checkboxContainer.setAttribute('role', 'checkbox');
       checkboxContainer.setAttribute('tabindex', 0);
 
@@ -84,7 +84,7 @@ export default class KeywordSelector {
       container.setAttribute('aria-checked', true);
     }
     checkbox.value = keyword;
-    checkbox.classList.add('h5p-keywords-selector-checkbox');
+    checkbox.classList.add('h5p-keyword-selector-selector-checkbox');
     this.checkboxes.push(checkbox);
 
     return checkbox;

@@ -8,12 +8,12 @@ html {
   box-sizing: inherit;
 }
 
-.h5p-keywords {
+.h5p-keyword-selector {
   background-color: $color-background;
   color: $color-text;
   width: 100%;
 
-  .h5p-keywords-main {
+  .h5p-keyword-selector-main {
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -28,7 +28,7 @@ html {
       width: 100%;
     }
 
-    .h5p-keywords-main-wrapper {
+    .h5p-keyword-selector-main-wrapper {
       width: 100%;
     }
   }

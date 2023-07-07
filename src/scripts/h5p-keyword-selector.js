@@ -1,10 +1,10 @@
 import Util from '@services/util';
 import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
-import '@styles/h5p-keywords.scss';
 import Main from '@components/main';
+import '@styles/h5p-keyword-selector.scss';
 
-export default class Keywords extends H5P.EventDispatcher {
+export default class KeywordSelector extends H5P.EventDispatcher {
   /**
    * @class
    * @param {object} params Parameters passed by the editor.
@@ -75,7 +75,7 @@ export default class Keywords extends H5P.EventDispatcher {
    * @param {H5P.jQuery} $wrapper Content's container.
    */
   attach($wrapper) {
-    $wrapper.get(0).classList.add('h5p-keywords');
+    $wrapper.get(0).classList.add('h5p-keyword-selector');
     $wrapper.get(0).appendChild(this.dom);
   }
 
@@ -85,7 +85,7 @@ export default class Keywords extends H5P.EventDispatcher {
    */
   buildDOM() {
     const dom = document.createElement('div');
-    dom.classList.add('h5p-keywords-main');
+    dom.classList.add('h5p-keyword-selector-main');
     const introduction = document.createElement('div');
     introduction.classList.add('h5p-introduction');
     introduction.innerText = this.getTitle();
@@ -100,7 +100,7 @@ export default class Keywords extends H5P.EventDispatcher {
   getTitle() {
     // H5P Core function: createTitle
     return H5P.createTitle(
-      this.extras?.metadata?.title || Keywords.DEFAULT_DESCRIPTION
+      this.extras?.metadata?.title || KeywordSelector.DEFAULT_DESCRIPTION
     );
   }
 
@@ -109,7 +109,7 @@ export default class Keywords extends H5P.EventDispatcher {
    * @returns {string} Description.
    */
   getDescription() {
-    return Keywords.DEFAULT_DESCRIPTION;
+    return KeywordSelector.DEFAULT_DESCRIPTION;
   }
 
   /**
@@ -273,4 +273,4 @@ export default class Keywords extends H5P.EventDispatcher {
 }
 
 /** @constant {string} Default description */
-Keywords.DEFAULT_DESCRIPTION = 'Keyword selector';
+KeywordSelector.DEFAULT_DESCRIPTION = 'Keyword selector';

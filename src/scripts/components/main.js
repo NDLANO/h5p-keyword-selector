@@ -1,6 +1,6 @@
 import Util from '@services/util';
 import Globals from '@services/globals';
-import KeywordSelector from '@components/keyword-selector';
+import KeywordSelector from '@components/keyword-selector/selector';
 import '@styles/main.scss';
 
 /**
@@ -25,7 +25,7 @@ export default class Main {
     this.currentState = 'inProgress';
 
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-keywords-main-wrapper');
+    this.dom.classList.add('h5p-keyword-selector-main-wrapper');
 
     const text = document.createElement('div');
     text.classList.add('h5p-keyword-text');

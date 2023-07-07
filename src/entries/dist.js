@@ -1,4 +1,4 @@
-import Keywords from '@scripts/h5p-keywords';
+import KeywordSelector from '@scripts/h5p-keyword-selector';
 
 // Load library
-H5P.Keywords = Keywords;
+H5P.KeywordSelector = KeywordSelector;

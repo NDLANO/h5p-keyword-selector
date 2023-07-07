@@ -1,11 +1,11 @@
 @import "@styles/main";
 
-.h5p-keywords-selector-container {
+.h5p-keyword-selector-selector-container {
   display: block;
   margin: 0.5em 0 0;
   padding: 0;
 
-  .h5p-keyword-selector {
+  .h5p-keyword-selector-selector {
     display: inline-block;
     border: 2px solid $border-color;
     padding: 0.3em;
@@ -30,6 +30,6 @@
   }
 }
 
-.h5p-keywords-error {
+.h5p-keyword-selector-error {
   color: $error-color;
 }

@@ -1,7 +1,7 @@
 {
-  "name": "h5p-keywords",
+  "name": "h5p-keyword-selector",
   "version": "1.0.0",
-  "description": "Keywords selector for activer reader mode",
+  "description": "Keyword selector for activer reader mode",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NDLANO/h5p-keywords.git"
+    "url": "git+https://github.com/NDLANO/h5p-keyword-selector.git"
   },
   "keywords": [
     "h5p",
