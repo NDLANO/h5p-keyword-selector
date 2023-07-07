@@ -15,20 +15,21 @@ export default class KeywordSelector extends H5P.EventDispatcher {
     super();
 
     // Sanitize parameters
-    this.params = Util.extend(
-      {
-        maxScore: 1,
-        score: 0,
-        behaviour: {
-          enableSolutionsButton: false,
-          enableRetry: false,
-        },
-        i10n: {
-          errorMessage: 'There are no keywords to select.'
-        }
+    this.params = Util.extend({
+      keywordExtractorGroup: {
+        contentText: ''
       },
-      params
-    );
+      maxScore: 1,
+      score: 0,
+      behaviour: {
+        enableSolutionsButton: false,
+        enableRetry: false,
+      },
+      i10n: {
+        errorMessage: 'There are no keywords to select.'
+      }
+    }, params);
+
     this.answered = false;
     this.contentId = contentId;
     this.extras = extras;
