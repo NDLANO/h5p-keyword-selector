@@ -90,6 +90,8 @@ export default class KeywordSelector extends H5P.EventDispatcher {
     const dom = document.createElement('div');
     dom.classList.add('h5p-keyword-selector-main');
 
+    // TODO: Make this optional
+
     const introduction = document.createElement('div');
     introduction.classList.add('h5p-introduction');
     introduction.innerText = this.getTitle();
