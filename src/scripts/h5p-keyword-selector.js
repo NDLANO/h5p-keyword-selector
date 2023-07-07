@@ -30,7 +30,7 @@ export default class KeywordSelector extends H5P.EventDispatcher {
       }
     }, params);
 
-    this.answered = false;
+    this.isAnswered = false;
     this.contentId = contentId;
     this.extras = extras;
 
@@ -87,10 +87,12 @@ export default class KeywordSelector extends H5P.EventDispatcher {
   buildDOM() {
     const dom = document.createElement('div');
     dom.classList.add('h5p-keyword-selector-main');
+
     const introduction = document.createElement('div');
     introduction.classList.add('h5p-introduction');
     introduction.innerText = this.getTitle();
     dom.appendChild(introduction);
+
     return dom;
   }
 
@@ -118,7 +120,7 @@ export default class KeywordSelector extends H5P.EventDispatcher {
    * @param {string} verb Verb id.
    */
   handleProgressed(verb) {
-    this.answered = true;
+    this.isAnswered = true;
     this.triggerXAPIEvent(verb);
   }
 
@@ -185,23 +187,16 @@ export default class KeywordSelector extends H5P.EventDispatcher {
     definition.correctResponsesPattern = [];
     definition.choices = [];
     const userResponse = this.params.keywordExtractorGroup.keywords.split(',');
-    for (let i = 0; i < userResponse.length; i++) {
-      definition.choices[i] = {
-        id: `${i}`,
-        description: {
-          'en-US': H5P.jQuery('<div>' + userResponse[i] + '</div>').text(),
-        },
+
+    definition.choices = userResponse.map((response, index) => {
+      return {
+        id: `${index}`,
+        description: { 'en-US': `'<div>${response}</div>'` },
       };
-      if (definition.correctResponsesPattern.length) {
-        definition.correctResponsesPattern[0] += '[,]';
-        // This looks insane, but it's how you separate multiple answers
-        // that must all be chosen to achieve perfect score...
-      }
-      else {
-        definition.correctResponsesPattern.push('');
-      }
-      definition.correctResponsesPattern[0] += i;
-    }
+    });
+
+    definition.correctResponsesPattern =
+      userResponse.map((response, index) => `${index}`).join('[,]');
 
     return definition;
   }
@@ -239,7 +234,7 @@ export default class KeywordSelector extends H5P.EventDispatcher {
    * Resets the complete task back to its' initial state.
    */
   resetTask() {
-    this.answered = false;
+    this.isAnswered = false;
     this.main.resetTask();
   }
 
@@ -269,7 +264,7 @@ export default class KeywordSelector extends H5P.EventDispatcher {
    * @returns {boolean} true if answers have been given.
    */
   getAnswerGiven() {
-    return this.answered;
+    return this.isAnswered;
   }
 }
 

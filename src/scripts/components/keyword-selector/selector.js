@@ -15,8 +15,7 @@ export default class Selector {
 
     // Sanitize callbacks
     this.callbacks = Util.extend({
-      onClick: () => {},
-      onkeydown: () => {}
+      onClick: () => {}
     }, callbacks);
 
     this.globalExtras = Globals.get('extras');
@@ -28,6 +27,7 @@ export default class Selector {
       this.dom.innerHTML = this.params.i10n.errorMessage;
       return;
     }
+
     this.params.keywords = this.params.keywords.split(',');
 
     // Create div element that wrapper checkbox
@@ -39,11 +39,9 @@ export default class Selector {
     );
 
     // add event listeners for the keyword selection
-    ['click', 'keydown'].forEach((event) => {
-      this.dom.addEventListener(event, (e) => {
-        this.handleSelection(e);
-        this.callbacks.onClick(e);
-      });
+    this.dom.addEventListener('click', (event) => {
+      this.handleSelection(event);
+      this.callbacks.onClick(event);
     });
 
     // Create keyword checkboxes
@@ -100,39 +98,31 @@ export default class Selector {
 
   /**
    * Handle keyword selection.
-   * @param {*} event Event.
+   * @param {PointerEvent} event Event.
    * @returns {void}
    */
   handleSelection(event) {
-    if (event.type === 'keydown' && !['Space', 'Enter'].includes(event.code)) {
+    const origin = event.target;
+
+    // Do not handle parent originated event
+    if (origin === this.dom) {
       return;
     }
 
-    const origin = event.target;
-    // Do not handle parent originated event
-    if (origin === this) {
-      return;
-    }
     origin.classList.toggle('active');
     origin.querySelector('input').checked = origin.classList.contains('active');
   }
 
   /**
    * Get selected keywords.
-   * @returns {void}
+   * @returns {object[]} Selected keywords.
    */
   getSelectedeKeywords() {
-    let selectedKeywords = [];
-    this.checkboxes?.map((item, index) => ({ item, index }))
-      .filter(({ item }) => item.checked)
-      .forEach(({ item, index }) => {
-        selectedKeywords.push({
-          value: item.value,
-          index: index
-        });
-      });
-
-    return selectedKeywords;
+    return this.checkboxes?.reduce((result, checkbox, index) => {
+      return (checkbox.checked) ?
+        [...result, { value: checkbox.value, index: index }] :
+        result;
+    }, []);
   }
 
   /**
