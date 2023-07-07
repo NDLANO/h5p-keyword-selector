@@ -2,6 +2,8 @@ import './selector.scss';
 import Globals from '@services/globals';
 import Util from '@services/util';
 
+// TODO: Split into components, cmp. KeywordExtractor widget
+
 export default class Selector {
   /**
    * @class
@@ -47,6 +49,7 @@ export default class Selector {
     // Create keyword checkboxes
     this.checkboxes = [];
     this.params.keywords.forEach((keyword) => {
+      // TODO: Use proper elements and pattern, https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
       const checkboxContainer = document.createElement('li');
       checkboxContainer.classList.add('h5p-keyword-selector-selector');
       checkboxContainer.setAttribute('role', 'checkbox');

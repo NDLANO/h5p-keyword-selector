@@ -42,6 +42,8 @@ export default class KeywordSelector extends H5P.EventDispatcher {
 
     this.dom = this.buildDOM();
 
+    // TODO: Turn static Globals into class
+
     // Set globals
     Globals.set('params', this.params);
     Globals.set('extras', this.extras);
@@ -124,6 +126,8 @@ export default class KeywordSelector extends H5P.EventDispatcher {
     this.triggerXAPIEvent(verb);
   }
 
+  // TODO: Use xAPI mixin
+
   /**
    * Trigger xAPI event.
    * @param {string} verb Short id of the verb we want to trigger.
@@ -156,14 +160,10 @@ export default class KeywordSelector extends H5P.EventDispatcher {
       xAPIEvent.data.statement.result.score.raw = this.params.maxScore;
 
       // Add the response
-      let response = '';
-      const userResponse = this.getResponse();
-      for (let i = 0; i < userResponse.length; i++) {
-        if (response !== '') {
-          response += '[,]';
-        }
-        response += userResponse[i].index;
-      }
+      const response = this.getResponse()
+        .map((response, index) => `${index}`)
+        .join('[,]');
+
       xAPIEvent.data.statement.result.response = response;
     }
 
@@ -177,6 +177,8 @@ export default class KeywordSelector extends H5P.EventDispatcher {
    */
   getXAPIDefinition(question) {
     let definition = {};
+
+    // TODO: Yes, we can know the language at runtime. Use it.
 
     definition.interactionType = 'choice';
     definition.type = 'http://adlnet.gov/expapi/activities/cmi.interaction';

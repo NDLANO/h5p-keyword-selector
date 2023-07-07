@@ -22,13 +22,14 @@ export default class Main {
     }, callbacks);
 
     this.globalExtras = Globals.get('extras');
-    this.currentState = 'inProgress';
+    this.currentState = 'inProgress'; // TODO: Use constants for lookup
 
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-keyword-selector-main-wrapper');
 
     const text = document.createElement('div');
     text.classList.add('h5p-keyword-text');
+    // TODO: Check: Does it make sense to have the whole text as ARIA label?
     text.id = `h5p-keyword-text-${this.globalExtras.subContentId}`;
     text.innerHTML = this.params.contentText;
     this.dom.appendChild(text);
@@ -54,9 +55,6 @@ export default class Main {
       },
       {
         onClick: () => {
-          this.callbacks.onProgressed('answered');
-        },
-        onkeydown: () => {
           this.callbacks.onProgressed('answered');
         }
       }
