@@ -14,9 +14,16 @@ export default class KeywordItem {
       checked: false
     }, params);
 
-    this.dom = document.createElement('button');
+    this.id = H5P.createUUID();
+
+    /*
+     * Implementing WAI/ARIA listbox pattern
+     * @see https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
+     */
+    this.dom = document.createElement('li');
+    this.dom.id = this.id;
     this.dom.classList.add('h5p-keyword-selector-keyword-item');
-    this.dom.setAttribute('role', 'checkbox');
+    this.dom.setAttribute('role', 'option');
     this.dom.innerText = this.params.keyword;
 
     this.toggleSelected(this.params.checked);
@@ -28,6 +35,14 @@ export default class KeywordItem {
    */
   getDOM() {
     return this.dom;
+  }
+
+  /**
+   * Get id.
+   * @returns {string} Id.
+   */
+  getId() {
+    return this.id;
   }
 
   /**
@@ -58,6 +73,14 @@ export default class KeywordItem {
     this.dom.setAttribute(
       'aria-checked', this.isSelectedState ? 'true' : 'false'
     );
+  }
+
+  /**
+   * Set focus.
+   * @param {boolean} state If true, set focus. Else remove.
+   */
+  toggleFocus(state) {
+    this.dom.classList.toggle('focused', state);
   }
 
   /**

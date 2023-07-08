@@ -1,6 +1,17 @@
 .h5p-keyword-selector-keyword-list {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 0.5rem;
+  list-style-type: none;
+  margin: 0;
+  padding: 0.5rem;
+}
+
+.h5p-content:not(.using-mouse) .h5p-keyword-selector-keyword-list:focus li {
+  &.focused {
+    outline: #000000 auto 1px;
+    outline: Highlight auto 1px ; // Firefox
+    outline: -webkit-focus-ring-color auto 1px;
+  }
 }

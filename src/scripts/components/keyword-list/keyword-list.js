@@ -23,13 +23,18 @@ export default class KeywordList {
       onChanged: () => {}
     }, callbacks);
 
-    this.dom = document.createElement('div');
+    this.currentPosition = 0;
+
+    /*
+     * Implementing WAI/ARIA listbox pattern
+     * @see https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
+     */
+    this.dom = document.createElement('ul');
     this.dom.classList.add('h5p-keyword-selector-keyword-list');
-    this.dom.setAttribute('role', 'group');
+    this.dom.setAttribute('role', 'listbox');
+    this.dom.setAttribute('tabindex', '0');
     this.dom.setAttribute('aria-label', this.params.a11y.keywordsList);
-    this.dom.addEventListener('click', (event) => {
-      this.handleClick(event);
-    });
+    this.dom.setAttribute('aria-multiselectable', 'true');
 
     this.keywordItems = this.params.keywords.map((keyword, index) => {
       const keywordItem = new KeywordItem({
@@ -41,6 +46,25 @@ export default class KeywordList {
 
       return keywordItem;
     });
+
+    if (!this.keywordItems.length) {
+      return;
+    }
+
+    this.dom.addEventListener('keydown', (event) => {
+      this.handleKeydown(event);
+    });
+    this.dom.addEventListener('click', (event) => {
+      this.handleClicked(event);
+    });
+    this.dom.addEventListener('focus', () => {
+      this.handleFocusChanged();
+    });
+    this.dom.addEventListener('blur', () => {
+      this.handleFocusChanged();
+    });
+
+    this.setActiveDescendant(this.keywordItems[this.currentPosition].getId());
   }
 
   /**
@@ -52,16 +76,130 @@ export default class KeywordList {
   }
 
   /**
+   * Set active descendant for listbox.
+   * @param {string} id Id of element to set as active descendant.
+   */
+  setActiveDescendant(id) {
+    if (typeof id !== 'string') {
+      return;
+    }
+    this.dom.setAttribute('aria-activedescendant', id);
+  }
+
+  /**
    * Handle click.
    * @param {PointerEvent} event Pointer event.
    */
-  handleClick(event) {
+  handleClicked(event) {
     const item = this.keywordItems
       .find((item) => item.getDOM() === event.target);
 
-    item?.toggleSelected();
+    if (!item) {
+      return;
+    }
+
+    item.toggleSelected();
 
     this.callbacks.onChanged();
+  }
+
+  /**
+   * Handle key down.
+   * @param {KeyboardEvent} event Keyboard event.
+   */
+  handleKeydown(event) {
+    if (event.code === 'ArrowLeft' || event.code === 'ArrowUp') {
+      this.moveButtonFocus(-1);
+    }
+    else if (event.code === 'ArrowRight' || event.code === 'ArrowDown') {
+      this.moveButtonFocus(1);
+    }
+    else if (event.code === 'Home') {
+      this.moveButtonFocus(0 - this.currentPosition);
+    }
+    else if (event.code === 'End') {
+      this.moveButtonFocus(
+        this.keywordItems.length - 1 - this.currentPosition
+      );
+    }
+    else if (event.code === 'Enter' || event.code === 'Space') {
+      this.handleClicked(
+        { target: this.keywordItems[this.currentPosition].getDOM() }
+      );
+    }
+    else if (event.code === 'KeyA' && event.ctrlKey) {
+      this.handleSelectedAll();
+    }
+    else {
+      return;
+    }
+
+    event.preventDefault();
+  }
+
+  /**
+   * Handle focus changed.
+   */
+  handleFocusChanged() {
+    this.moveButtonFocus(document.activeElement === this.dom ? 0 : null);
+  }
+
+  /**
+   * Handle all items selected.
+   */
+  handleSelectedAll() {
+    // If all items are selected, select none. Else select all.
+    this.selectAll(
+      this.getSelectedIndexes().length !== this.keywordItems.length
+    );
+  }
+
+  /**
+   * Select all or no tags.
+   * @param {boolean} all True to select all, false to select none.
+   */
+  selectAll(all) {
+    if (typeof all !== 'boolean') {
+      return;
+    }
+
+    this.keywordItems.forEach((item) => {
+      item.toggleSelected(all);
+    });
+
+  }
+
+  /**
+   * Move button focus
+   * @param {number|null} offset Offset to move position by. Null removes all focus.
+   */
+  moveButtonFocus(offset) {
+    if (offset === null) {
+      this.keywordItems.forEach((item) => {
+        item.toggleFocus(false);
+      });
+
+      return;
+    }
+
+    if (typeof offset !== 'number') {
+      return;
+    }
+
+    if (
+      this.currentPosition + offset < 0 ||
+      this.currentPosition + offset > this.keywordItems.length - 1
+    ) {
+      return; // Don't cycle
+    }
+
+    this.currentPosition = this.currentPosition + offset;
+
+    this.keywordItems.forEach((item, index) => {
+      item.toggleFocus(index === this.currentPosition);
+    });
+
+    this.setActiveDescendant(this.keywordItems[this.currentPosition].getId());
   }
 
   /**
