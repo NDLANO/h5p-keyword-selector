@@ -54,8 +54,6 @@ export default class XAPI {
   getXAPIDefinition(question) {
     let definition = {};
 
-    // TODO: Yes, we can know the language at runtime. Use it.
-
     definition.name = {};
     definition.name[this.languageTag] = this.getTitle();
     // Fallback for h5p-php-reporting, expects en-US
