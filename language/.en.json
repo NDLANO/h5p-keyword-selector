@@ -1,6 +1,9 @@
 {
   "semantics": [
     {
+      "label": "Display title"
+    },
+    {
       "label": "Keyword extractor",
       "fields": [
         {

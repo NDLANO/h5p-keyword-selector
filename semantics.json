@@ -1,5 +1,12 @@
 [
   {
+    "name": "showTitle",
+    "type": "boolean",
+    "label": "Display title",
+    "default": false,
+    "optional": true
+  },
+  {
     "name": "keywordExtractorGroup",
     "label": "Keyword extractor",
     "type": "group",

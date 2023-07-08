@@ -16,6 +16,7 @@ export default class KeywordSelector extends H5P.EventDispatcher {
 
     // Sanitize parameters
     this.params = Util.extend({
+      showTitle: false,
       keywordExtractorGroup: {
         contentText: ''
       },
@@ -41,8 +42,6 @@ export default class KeywordSelector extends H5P.EventDispatcher {
     this.previousState = this.extras?.previousState || {};
 
     this.dom = this.buildDOM();
-
-    // TODO: Turn static Globals into class
 
     // Set globals
     this.globals = new Globals();
@@ -92,12 +91,12 @@ export default class KeywordSelector extends H5P.EventDispatcher {
     const dom = document.createElement('div');
     dom.classList.add('h5p-keyword-selector-main');
 
-    // TODO: Make this optional
-
-    const introduction = document.createElement('div');
-    introduction.classList.add('h5p-introduction');
-    introduction.innerText = this.getTitle();
-    dom.appendChild(introduction);
+    if (this.params.showTitle) {
+      const introduction = document.createElement('div');
+      introduction.classList.add('h5p-keyword-selector-introduction');
+      introduction.innerText = this.getTitle();
+      dom.appendChild(introduction);
+    }
 
     return dom;
   }

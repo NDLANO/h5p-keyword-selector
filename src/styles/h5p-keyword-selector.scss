@@ -13,22 +13,13 @@ html {
   color: $color-text;
 
   .h5p-keyword-selector-main {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     padding: 0.75em;
 
-    .h5p-introduction{
-      margin: 1em;
-      font-size: 1.125em;
+    .h5p-keyword-selector-introduction {
+      margin: 1rem 0;
+      font-size: 1.125rem;
+      font-weight: bold;
       line-height: 1;
-      text-align: left;
-      width: 100%;
-    }
-
-    .h5p-keyword-selector-main-wrapper {
-      width: 100%;
     }
   }
 }
