@@ -1,5 +1,4 @@
 import './selector.scss';
-import Globals from '@services/globals';
 import Util from '@services/util';
 
 // TODO: Split into components, cmp. KeywordExtractor widget
@@ -20,7 +19,7 @@ export default class Selector {
       onClick: () => {}
     }, callbacks);
 
-    this.globalExtras = Globals.get('extras');
+    this.globalExtras = this.params.globals.get('extras');
 
     if (!this.params.keywords) {
       // Create error message

@@ -1,5 +1,4 @@
 import Util from '@services/util';
-import Globals from '@services/globals';
 import KeywordSelector from '@components/keyword-selector/selector';
 import '@styles/main.scss';
 
@@ -21,7 +20,7 @@ export default class Main {
       onProgressed: () => {}
     }, callbacks);
 
-    this.globalExtras = Globals.get('extras');
+    this.globalExtras = this.params.globals.get('extras');
     this.currentState = 'inProgress'; // TODO: Use constants for lookup
 
     this.dom = document.createElement('div');
@@ -38,7 +37,7 @@ export default class Main {
     this.initKewordSelector();
 
     // Resize content type
-    Globals.get('resize')();
+    this.params.globals.get('resize')();
   }
 
   /**
@@ -47,6 +46,7 @@ export default class Main {
   initKewordSelector() {
     this.keywordSelector = new KeywordSelector(
       {
+        globals: this.params.globals,
         keywords: this.params.keywords,
         selectedKeywords: this.params.previousState,
         i10n : {

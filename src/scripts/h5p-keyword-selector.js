@@ -45,15 +45,17 @@ export default class KeywordSelector extends H5P.EventDispatcher {
     // TODO: Turn static Globals into class
 
     // Set globals
-    Globals.set('params', this.params);
-    Globals.set('extras', this.extras);
-    Globals.set('resize', () => {
+    this.globals = new Globals();
+    this.globals.set('params', this.params);
+    this.globals.set('extras', this.extras);
+    this.globals.set('resize', () => {
       this.trigger('resize');
     });
 
     // Initialize main component
     this.main = new Main(
       {
+        globals: this.globals,
         contentText: this.params.keywordExtractorGroup.contentText,
         keywords: this.params.keywordExtractorGroup.keywords,
         maxScore: this.params.maxScore,
@@ -70,7 +72,7 @@ export default class KeywordSelector extends H5P.EventDispatcher {
     );
     this.dom.appendChild(this.main.getDOM());
 
-    Globals.get('resize')();
+    this.globals.get('resize')();
   }
 
   /**
