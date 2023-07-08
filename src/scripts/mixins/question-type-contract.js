@@ -17,7 +17,7 @@ export default class QuestionTypeContract {
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-2}
    */
   getScore() {
-    return this.main.getScore();
+    return (this.main.getSelectedCount() > 0) ? this.getMaxScore() : 0;
   }
 
   /**

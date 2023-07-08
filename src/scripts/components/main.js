@@ -1,6 +1,6 @@
 import Util from '@services/util';
 import KeywordList from '@components/keyword-list/keyword-list';
-import '@styles/main.scss';
+import './main.scss';
 
 /**
  * Main DOM component incl. main controller.
@@ -9,29 +9,46 @@ export default class Main {
   /**
    * @class
    * @param {object} [params] Parameters.
+   * @param {string[]} [params.keywords] Keywords.
+   * @param {object} [params.previousState] Previous state.
    * @param {object} [callbacks] Callbacks.
-   * @param {object} [callbacks.onProgressed] Callback when user progressed.
+   * @param {function} [callbacks.onAnswered] Callback when user answered.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
+      keywords: [],
+      l10n: {},
+      a11y: {}
     }, params);
 
     this.callbacks = Util.extend({
-      onProgressed: () => {}
+      onAnswered: () => {}
     }, callbacks);
 
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-keyword-selector-main-wrapper');
+    this.dom.classList.add('h5p-keyword-selector-main');
 
     const text = document.createElement('div');
-    text.classList.add('h5p-keyword-text');
+    text.classList.add('h5p-keyword-selector-main-text');
     text.innerHTML = this.params.contentText;
     this.dom.appendChild(text);
+
+    if (!this.params.keywords) {
+      const message = document.createElement('div');
+      message.classList.add('h5p-keyword-selector-main-message');
+      message.innerText = this.params.l10n.noKeywords;
+      this.dom.append(message);
+
+      return;
+    }
 
     this.keywordList = new KeywordList(
       {
         keywords: this.params.keywords,
-        previouslySeletedIndexes: this.params.previousState?.selected
+        previouslySeletedIndexes: this.params.previousState?.selected,
+        a11y: {
+          keywordsList: this.params.a11y.keywordsList
+        }
       },
       {
         onChanged: () => {
@@ -64,7 +81,6 @@ export default class Main {
    * Reset.
    */
   reset() {
-    this.wasAnswered = false;
     this.keywordList.reset();
   }
 
@@ -77,12 +93,10 @@ export default class Main {
   }
 
   /**
-   * Get score based on selection.
-   * @returns {number} Score.
+   * Get number of selected keywords.
+   * @returns {number} Number of selected keywords.
    */
-  getScore() {
-    return this.keywordList.getSelectedIndexes().length > 0
-      ? this.params.maxScore
-      : 0;
+  getSelectedCount() {
+    return this.keywordList.getSelectedIndexes().length;
   }
 }

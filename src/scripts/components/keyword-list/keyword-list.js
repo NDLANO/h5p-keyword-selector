@@ -6,12 +6,17 @@ export default class KeywordList {
   /**
    * @class
    * @param {object} [params] Parameters.
+   * @param {string[]} [params.keywords] Keywords.
+   * @param {number[]} [params.previouslySeletedIndexes] Previously selected.
+   * @param {object} [params.a11y] Phrases for a11y.
    * @param {object} [callbacks] Callbacks.
+   * @param {function} [callbacks.onChanged] Callback when selection changed.
    */
   constructor(params, callbacks) {
     this.params = Util.extend({
       keywords: [],
-      previouslySeletedIndexes: []
+      previouslySeletedIndexes: [],
+      a11y: {}
     }, params);
 
     this.callbacks = Util.extend({
@@ -21,7 +26,7 @@ export default class KeywordList {
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-keyword-selector-keyword-list');
     this.dom.setAttribute('role', 'group');
-    this.dom.setAttribute('aria-label', 'TODO');
+    this.dom.setAttribute('aria-label', this.params.a11y.keywordsList);
     this.dom.addEventListener('click', (event) => {
       this.handleClick(event);
     });

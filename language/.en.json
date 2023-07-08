@@ -24,9 +24,27 @@
       "label": "User interface",
       "fields": [
         {
-          "label": "Empty keywords list",
-          "description": "Text will appear to users when there are no keywords to select.",
-          "default": "There are no keywords to select."
+          "label": "No keywords to select from",
+          "description": "Text will appear to users when there are no keywords to select from.",
+          "default": "There are no keywords to select from."
+        },
+        {
+          "label": "Dummy",
+          "default": "Dummy"
+        }
+      ]
+    },
+    {
+      "label": "Accessibility texts",
+      "fields": [
+        {
+          "label": "List of keywords",
+          "description": "Text will announce the keywords list via screen reader.",
+          "default": "List of keywords to select from"
+        },
+        {
+          "label": "Dummy",
+          "default": "Dummy"
         }
       ]
     }

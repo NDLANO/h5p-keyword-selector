@@ -1,4 +1,4 @@
-@import "@styles/main";
+@import "@styles/colors";
 
 .h5p-keyword-selector-keyword-item {
   background-color: transparent;
@@ -7,7 +7,7 @@
   cursor: pointer;
   font-size: 1rem;
   line-height: normal;
-  padding: 0.3em;
+  padding: 0.3rem;
   transition: background-color 400ms ease-out;
 
   &:hover{

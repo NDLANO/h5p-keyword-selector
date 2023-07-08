@@ -23,17 +23,18 @@ export default class KeywordSelector extends H5P.EventDispatcher {
     this.params = Util.extend({
       showTitle: false,
       keywordExtractorGroup: {
-        contentText: '',
-        keywords: ''
+        contentText: ''
       },
       maxScore: 1,
-      score: 0,
       behaviour: {
         enableSolutionsButton: false,
         enableRetry: false,
       },
-      i10n: {
-        errorMessage: 'There are no keywords to select.'
+      l10n: {
+        noKeywords: 'There are no keywords to select from.'
+      },
+      a11y: {
+        keywordsList: 'List of keywords to select from'
       }
     }, params);
 
@@ -56,12 +57,10 @@ export default class KeywordSelector extends H5P.EventDispatcher {
     this.main = new Main(
       {
         contentText: this.params.keywordExtractorGroup.contentText,
-        keywords: this.params.keywordExtractorGroup.keywords.split(','),
-        maxScore: this.params.maxScore,
+        keywords: this.params.keywordExtractorGroup.keywords?.split(','),
         previousState: this.previousState.content,
-        i10n : {
-          errorMessage: this.params.i10n.errorMessage,
-        }
+        l10n: this.params.l10n,
+        a11y: this.params.a11y
       },
       {
         onAnswered: () => {
@@ -89,11 +88,11 @@ export default class KeywordSelector extends H5P.EventDispatcher {
    */
   buildDOM() {
     const dom = document.createElement('div');
-    dom.classList.add('h5p-keyword-selector-main');
+    dom.classList.add('h5p-keyword-selector-container');
 
     if (this.params.showTitle) {
       const introduction = document.createElement('div');
-      introduction.classList.add('h5p-keyword-selector-introduction');
+      introduction.classList.add('h5p-keyword-selector-title');
       introduction.innerText = this.getTitle();
       dom.appendChild(introduction);
     }
@@ -106,14 +105,17 @@ export default class KeywordSelector extends H5P.EventDispatcher {
    */
   handleAnswered() {
     this.isAnswered = true;
-    this.triggerXAPIEvent('progressed'); // Todo store state?
   }
 
   /**
    * Return H5P core's call to store current state.
-   * @returns {object} Current state.
+   * @returns {object|undefined} Current state.
    */
   getCurrentState() {
+    if (!this.params.keywordExtractorGroup.keywords) {
+      return;
+    }
+
     return { content: this.main.getCurrentState() };
   }
 
@@ -122,7 +124,6 @@ export default class KeywordSelector extends H5P.EventDispatcher {
    * @returns {string} Title.
    */
   getTitle() {
-    // H5P Core function: createTitle
     return H5P.createTitle(
       this.extras?.metadata?.title || KeywordSelector.DEFAULT_DESCRIPTION
     );
@@ -137,5 +138,5 @@ export default class KeywordSelector extends H5P.EventDispatcher {
   }
 }
 
-/** @constant {string} Default description */
-KeywordSelector.DEFAULT_DESCRIPTION = 'Keyword selector';
+/** @constant {string} DEFAULT_DESCRIPTION Default description. */
+KeywordSelector.DEFAULT_DESCRIPTION = 'Keyword Selector';

@@ -56,12 +56,38 @@
     "common": true,
     "fields": [
       {
-        "name": "errorMessage",
+        "name": "noKeywords",
         "type": "text",
-        "label": "Empty keywords list",
-        "description": "Text will appear to users when there are no keywords to select.",
-        "default": "There are no keywords to select.",
-        "importance": "low"
+        "label": "No keywords to select from",
+        "description": "Text will appear to users when there are no keywords to select from.",
+        "default": "There are no keywords to select from."
+      },
+      {
+        "name": "dummy",
+        "type": "text",
+        "label": "Dummy",
+        "default": "Dummy"
+      }
+    ]
+  },
+  {
+    "name": "a11y",
+    "type": "group",
+    "label": "Accessibility texts",
+    "common": true,
+    "fields": [
+      {
+        "name": "keywordsList",
+        "type": "text",
+        "label": "List of keywords",
+        "description": "Text will announce the keywords list via screen reader.",
+        "default": "List of keywords to select from"
+      },
+      {
+        "name": "dummy",
+        "type": "text",
+        "label": "Dummy",
+        "default": "Dummy"
       }
     ]
   }

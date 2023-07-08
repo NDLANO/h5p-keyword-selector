@@ -1,4 +1,4 @@
-@import "./main";
+@import "@styles/colors";
 
 html {
   box-sizing: border-box;
@@ -12,10 +12,10 @@ html {
   background-color: $color-background;
   color: $color-text;
 
-  .h5p-keyword-selector-main {
+  .h5p-keyword-selector-container {
     padding: 0.75em;
 
-    .h5p-keyword-selector-introduction {
+    .h5p-keyword-selector-title {
       margin: 1rem 0;
       font-size: 1.125rem;
       font-weight: bold;

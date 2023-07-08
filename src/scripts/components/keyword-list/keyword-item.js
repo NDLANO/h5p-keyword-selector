@@ -5,6 +5,8 @@ export default class KeywordItem {
   /**
    * @class
    * @param {object} [params] Parameters.
+   * @param {string} [params.keyword] Keyword.
+   * @param {boolean} [params.checked] If true, start checked.
    */
   constructor(params) {
     this.params = Util.extend({
@@ -15,7 +17,6 @@ export default class KeywordItem {
     this.dom = document.createElement('button');
     this.dom.classList.add('h5p-keyword-selector-keyword-item');
     this.dom.setAttribute('role', 'checkbox');
-    this.dom.setAttribute('tabindex', '0');
     this.dom.innerText = this.params.keyword;
 
     this.toggleSelected(this.params.checked);
