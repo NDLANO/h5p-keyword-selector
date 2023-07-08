@@ -73,7 +73,7 @@ export default class Main {
    */
   getCurrentState() {
     return {
-      selected: this.keywordList.getSelectedIndexes(),
+      selected: this.keywordList.getSelectedIndexes()
     };
   }
 
@@ -85,11 +85,11 @@ export default class Main {
   }
 
   /**
-   * Get response.
-   * @returns {string} Response.
+   * Get selected indexes.
+   * @returns {number[]} Selectes indexes.
    */
-  getResponses() {
-    return this.keywordList.getResponses();
+  getSelectedIndexes() {
+    return this.keywordList.getSelectedIndexes();
   }
 
   /**

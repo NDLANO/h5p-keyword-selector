@@ -209,7 +209,7 @@ export default class KeywordList {
   getResponses() {
     return this.keywordItems
       .filter((item) => item.isSelected())
-      .map((item).getKeyword());
+      .map((item) => item.getKeyword());
   }
 
   /**

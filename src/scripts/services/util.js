@@ -79,4 +79,19 @@ export default class Util {
 
     return languageCode;
   }
+
+  /**
+   * Strip HTML.
+   * @param {string} html Html.
+   * @returns {string} Plain text.
+   */
+  static stripHTML(html) {
+    if (typeof html !== 'string') {
+      return '';
+    }
+
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || '';
+  }
 }

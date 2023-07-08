@@ -27,20 +27,16 @@ export default class XAPI {
 
     // Build response for report
     if (verb === 'answered') {
-      this.params.score = this.params.maxScore;
       xAPIEvent.setScoredResult(
-        this.params.maxScore,
-        this.params.maxScore,
-        this
+        this.getScore(),
+        this.getMaxScore(),
+        this,
+        true,
+        this.getScore() === this.getMaxScore()
       );
-      xAPIEvent.data.statement.result.score.raw = this.params.maxScore;
 
-      // Add the response
-      const response = this.main.getResponses()
-        .map((response, index) => `${index}`)
-        .join('[,]');
-
-      xAPIEvent.data.statement.result.response = response;
+      xAPIEvent.data.statement.result.response =
+        this.main.getSelectedIndexes().join('[,]');
     }
 
     return xAPIEvent;
@@ -67,18 +63,20 @@ export default class XAPI {
     definition.type = 'http://adlnet.gov/expapi/activities/cmi.interaction';
     definition.interactionType = 'choice';
 
-    definition.correctResponsesPattern = [];
-
     const userResponse = this.params.keywordExtractorGroup.keywords.split(',');
     definition.choices = userResponse.map((response, index) => {
+      const description = {};
+      description[this.languageTag] = Util.stripHTML(response);
+      description['en-US'] = description[this.languageTag];
+
       return {
         id: `${index}`,
-        description: { 'en-US': `'<div>${response}</div>'` },
+        description: description,
       };
     });
 
     definition.correctResponsesPattern =
-      userResponse.map((response, index) => `${index}`).join('[,]');
+      this.main.getSelectedIndexes().join('[,]');
 
     return definition;
   }
