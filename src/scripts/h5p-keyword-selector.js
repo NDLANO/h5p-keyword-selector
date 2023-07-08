@@ -3,6 +3,8 @@ import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Main from '@components/main';
 import '@styles/h5p-keyword-selector.scss';
+import QuestionTypeContract from './mixins/question-type-contract';
+import XAPI from './mixins/xapi';
 
 export default class KeywordSelector extends H5P.EventDispatcher {
   /**
@@ -13,6 +15,10 @@ export default class KeywordSelector extends H5P.EventDispatcher {
    */
   constructor(params, contentId, extras = {}) {
     super();
+
+    Util.addMixins(
+      KeywordSelector, [XAPI, QuestionTypeContract]
+    );
 
     // Sanitize parameters
     this.params = Util.extend({
@@ -129,103 +135,6 @@ export default class KeywordSelector extends H5P.EventDispatcher {
     this.triggerXAPIEvent(verb);
   }
 
-  // TODO: Use xAPI mixin
-
-  /**
-   * Trigger xAPI event.
-   * @param {string} verb Short id of the verb we want to trigger.
-   */
-  triggerXAPIEvent(verb) {
-    const xAPIEvent = this.createXAPIEvent(verb);
-    this.trigger(xAPIEvent);
-  }
-
-  /**
-   * Create an xAPI event.
-   * @param {string} verb Short id of the verb we want to trigger.
-   * @returns {H5P.XAPIEvent} Event template.
-   */
-  createXAPIEvent(verb) {
-    const xAPIEvent = this.createXAPIEventTemplate(verb);
-    Util.extend(
-      xAPIEvent.getVerifiedStatementValue(['object', 'definition']),
-      this.getXAPIDefinition(this.params.question)
-    );
-
-    // Build response for report
-    if (verb === 'answered') {
-      this.params.score = this.params.maxScore;
-      xAPIEvent.setScoredResult(
-        this.params.maxScore,
-        this.params.maxScore,
-        this
-      );
-      xAPIEvent.data.statement.result.score.raw = this.params.maxScore;
-
-      // Add the response
-      const response = this.getResponse()
-        .map((response, index) => `${index}`)
-        .join('[,]');
-
-      xAPIEvent.data.statement.result.response = response;
-    }
-
-    return xAPIEvent;
-  }
-
-  /**
-   * Create a definition template
-   * @param {string} question Question text
-   * @returns {object} XAPI definition template
-   */
-  getXAPIDefinition(question) {
-    let definition = {};
-
-    // TODO: Yes, we can know the language at runtime. Use it.
-
-    definition.interactionType = 'choice';
-    definition.type = 'http://adlnet.gov/expapi/activities/cmi.interaction';
-    definition.description = {
-      'en-US': question, // We don't know the language at runtime
-    };
-
-    definition.correctResponsesPattern = [];
-    definition.choices = [];
-    const userResponse = this.params.keywordExtractorGroup.keywords.split(',');
-
-    definition.choices = userResponse.map((response, index) => {
-      return {
-        id: `${index}`,
-        description: { 'en-US': `'<div>${response}</div>'` },
-      };
-    });
-
-    definition.correctResponsesPattern =
-      userResponse.map((response, index) => `${index}`).join('[,]');
-
-    return definition;
-  }
-
-  /**
-   * Get current score.
-   * @returns {number} Current score.
-   * @see contract at
-   * {@link https://h5p.org/documentation/developers/contracts#guides-header-2}
-   */
-  getScore() {
-    return this.main.calculateScore();
-  }
-
-  /**
-   * Get maximum possible score.
-   * @returns {number} Score necessary for mastering.
-   * @see contract at
-   * {@link https://h5p.org/documentation/developers/contracts#guides-header-3}
-   */
-  getMaxScore() {
-    return this.params.maxScore;
-  }
-
   /**
    * Get response.
    * @returns {string} Response.
@@ -235,41 +144,11 @@ export default class KeywordSelector extends H5P.EventDispatcher {
   }
 
   /**
-   * Used for contracts.
-   * Resets the complete task back to its' initial state.
-   */
-  resetTask() {
-    this.isAnswered = false;
-    this.main.resetTask();
-  }
-
-  /**
-   * Get xAPI data.
-   * @returns {object} XAPI statement.
-   * @see contract at
-   * {@link https://h5p.org/documentation/developers/contracts#guides-header-6}
-   */
-  getXAPIData() {
-    const xAPIEvent = this.createXAPIEvent('answered');
-    return {
-      statement: xAPIEvent.data.statement,
-    };
-  }
-
-  /**
    * Return H5P core's call to store current state.
    * @returns {object} Current state.
    */
   getCurrentState() {
     return this.main.getCurrentState();
-  }
-
-  /**
-   * Return H5P core's call to store current state.
-   * @returns {boolean} true if answers have been given.
-   */
-  getAnswerGiven() {
-    return this.isAnswered;
   }
 }
 
