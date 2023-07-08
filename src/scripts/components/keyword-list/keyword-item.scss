@@ -8,16 +8,10 @@
   font-size: 1rem;
   line-height: normal;
   padding: 0.3em;
-  transition: border 400ms ease-out;
-
-  &:focus {
-    background-color: $border-color-active-bg;
-    border-color: $border-color-active;
-  }
+  transition: background-color 400ms ease-out;
 
   &:hover{
     background-color: $border-color-active-bg;
-    border-color: $border-color-active;
   }
 
   &[aria-checked="true"] {
