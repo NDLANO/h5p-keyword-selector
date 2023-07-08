@@ -36,7 +36,7 @@ export default class XAPI {
       xAPIEvent.data.statement.result.score.raw = this.params.maxScore;
 
       // Add the response
-      const response = this.getResponse()
+      const response = this.main.getResponses()
         .map((response, index) => `${index}`)
         .join('[,]');
 

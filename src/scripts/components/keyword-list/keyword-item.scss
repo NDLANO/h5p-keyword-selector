@@ -1,0 +1,26 @@
+@import "@styles/main";
+
+.h5p-keyword-selector-keyword-item {
+  background-color: transparent;
+  border: 2px solid $border-color;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: normal;
+  padding: 0.3em;
+  transition: border 400ms ease-out;
+
+  &:focus {
+    background-color: $border-color-active-bg;
+    border-color: $border-color-active;
+  }
+
+  &:hover{
+    background-color: $border-color-active-bg;
+    border-color: $border-color-active;
+  }
+
+  &[aria-checked="true"] {
+    border-color: $border-color-active;
+  }
+}

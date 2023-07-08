@@ -17,7 +17,7 @@ export default class QuestionTypeContract {
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-2}
    */
   getScore() {
-    return this.main.calculateScore();
+    return this.main.getScore();
   }
 
   /**
@@ -43,7 +43,7 @@ export default class QuestionTypeContract {
    */
   resetTask() {
     this.isAnswered = false;
-    this.main.resetTask();
+    this.main.reset();
   }
 
   /**

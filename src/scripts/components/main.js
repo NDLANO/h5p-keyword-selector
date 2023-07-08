@@ -1,5 +1,5 @@
 import Util from '@services/util';
-import KeywordSelector from '@components/keyword-selector/selector';
+import KeywordList from '@components/keyword-list/keyword-list';
 import '@styles/main.scss';
 
 /**
@@ -20,46 +20,26 @@ export default class Main {
       onProgressed: () => {}
     }, callbacks);
 
-    this.globalExtras = this.params.globals.get('extras');
-    this.currentState = 'inProgress'; // TODO: Use constants for lookup
-
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-keyword-selector-main-wrapper');
 
     const text = document.createElement('div');
     text.classList.add('h5p-keyword-text');
-    // TODO: Check: Does it make sense to have the whole text as ARIA label?
-    text.id = `h5p-keyword-text-${this.globalExtras.subContentId}`;
     text.innerHTML = this.params.contentText;
     this.dom.appendChild(text);
 
-    // Initialize validation wrapper
-    this.initKewordSelector();
-
-    // Resize content type
-    this.params.globals.get('resize')();
-  }
-
-  /**
-   * Initialize the status bar for remaining characters in the field.
-   */
-  initKewordSelector() {
-    this.keywordSelector = new KeywordSelector(
+    this.keywordList = new KeywordList(
       {
-        globals: this.params.globals,
         keywords: this.params.keywords,
-        selectedKeywords: this.params.previousState,
-        i10n : {
-          errorMessage: this.params.i10n.errorMessage,
-        }
+        previouslySeletedIndexes: this.params.previousState?.selected
       },
       {
-        onClick: () => {
-          this.callbacks.onProgressed('answered');
+        onChanged: () => {
+          this.callbacks.onAnswered();
         }
       }
     );
-    this.dom.append(this.keywordSelector.getDOM());
+    this.dom.append(this.keywordList.getDOM());
   }
 
   /**
@@ -76,35 +56,33 @@ export default class Main {
    */
   getCurrentState() {
     return {
-      content: this.keywordSelector
-        .getSelectedeKeywords()
-        .map((keyword) => keyword.value),
-      progress: this.currentState,
+      selected: this.keywordList.getSelectedIndexes(),
     };
   }
 
   /**
-   * Used for contracts.
-   * Resets the complete task back to its' initial state.
+   * Reset.
    */
-  resetTask() {
-    this.keywordSelector.resetKeywords();
+  reset() {
+    this.wasAnswered = false;
+    this.keywordList.reset();
   }
 
   /**
    * Get response.
    * @returns {string} Response.
    */
-  getResponse() {
-    return this.keywordSelector.getSelectedeKeywords();
+  getResponses() {
+    return this.keywordList.getResponses();
   }
 
   /**
-   * Calculate score on based of selection.
-   * @returns {boolean} Score.
+   * Get score based on selection.
+   * @returns {number} Score.
    */
-  calculateScore() {
-    return this.keywordSelector.getSelectedeKeywords().length > 0
-      ? this.params.maxScore : 0;
+  getScore() {
+    return this.keywordList.getSelectedIndexes().length > 0
+      ? this.params.maxScore
+      : 0;
   }
 }

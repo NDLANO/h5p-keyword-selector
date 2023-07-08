@@ -1,6 +1,5 @@
 import Util from '@services/util';
 import Dictionary from '@services/dictionary';
-import Globals from '@services/globals';
 import Main from '@components/main';
 import '@styles/h5p-keyword-selector.scss';
 import QuestionTypeContract from './mixins/question-type-contract';
@@ -24,7 +23,8 @@ export default class KeywordSelector extends H5P.EventDispatcher {
     this.params = Util.extend({
       showTitle: false,
       keywordExtractorGroup: {
-        contentText: ''
+        contentText: '',
+        keywords: ''
       },
       maxScore: 1,
       score: 0,
@@ -52,35 +52,26 @@ export default class KeywordSelector extends H5P.EventDispatcher {
 
     this.dom = this.buildDOM();
 
-    // Set globals
-    this.globals = new Globals();
-    this.globals.set('params', this.params);
-    this.globals.set('extras', this.extras);
-    this.globals.set('resize', () => {
-      this.trigger('resize');
-    });
-
     // Initialize main component
     this.main = new Main(
       {
-        globals: this.globals,
         contentText: this.params.keywordExtractorGroup.contentText,
-        keywords: this.params.keywordExtractorGroup.keywords,
+        keywords: this.params.keywordExtractorGroup.keywords.split(','),
         maxScore: this.params.maxScore,
-        previousState: this.previousState,
+        previousState: this.previousState.content,
         i10n : {
           errorMessage: this.params.i10n.errorMessage,
         }
       },
       {
-        onProgressed: (verb) => {
-          this.handleProgressed(verb);
+        onAnswered: () => {
+          this.handleAnswered();
         },
       }
     );
     this.dom.appendChild(this.main.getDOM());
 
-    this.globals.get('resize')();
+    this.trigger('resize');
   }
 
   /**
@@ -111,6 +102,22 @@ export default class KeywordSelector extends H5P.EventDispatcher {
   }
 
   /**
+   * Handle answered.
+   */
+  handleAnswered() {
+    this.isAnswered = true;
+    this.triggerXAPIEvent('progressed'); // Todo store state?
+  }
+
+  /**
+   * Return H5P core's call to store current state.
+   * @returns {object} Current state.
+   */
+  getCurrentState() {
+    return { content: this.main.getCurrentState() };
+  }
+
+  /**
    * Get task title.
    * @returns {string} Title.
    */
@@ -127,31 +134,6 @@ export default class KeywordSelector extends H5P.EventDispatcher {
    */
   getDescription() {
     return KeywordSelector.DEFAULT_DESCRIPTION;
-  }
-
-  /**
-   * Handle progressed.
-   * @param {string} verb Verb id.
-   */
-  handleProgressed(verb) {
-    this.isAnswered = true;
-    this.triggerXAPIEvent(verb);
-  }
-
-  /**
-   * Get response.
-   * @returns {string} Response.
-   */
-  getResponse() {
-    return this.main.getResponse();
-  }
-
-  /**
-   * Return H5P core's call to store current state.
-   * @returns {object} Current state.
-   */
-  getCurrentState() {
-    return this.main.getCurrentState();
   }
 }
 
