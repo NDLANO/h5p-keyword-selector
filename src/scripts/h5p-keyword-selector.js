@@ -47,6 +47,9 @@ export default class KeywordSelector extends H5P.EventDispatcher {
 
     this.previousState = this.extras?.previousState || {};
 
+    const defaultLanguage = extras?.metadata?.defaultLanguage || 'en';
+    this.languageTag = Util.formatLanguageCode(defaultLanguage);
+
     this.dom = this.buildDOM();
 
     // Set globals

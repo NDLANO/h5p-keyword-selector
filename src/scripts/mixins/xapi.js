@@ -56,16 +56,22 @@ export default class XAPI {
 
     // TODO: Yes, we can know the language at runtime. Use it.
 
-    definition.interactionType = 'choice';
+    definition.name = {};
+    definition.name[this.languageTag] = this.getTitle();
+    // Fallback for h5p-php-reporting, expects en-US
+    definition.name['en-US'] = definition.name[this.languageTag];
+
+    definition.description = {};
+    definition.description[this.languageTag] = this.getDescription();
+    // Fallback for h5p-php-reporting, expects en-US
+    definition.description['en-US'] = definition.description[this.languageTag];
+
     definition.type = 'http://adlnet.gov/expapi/activities/cmi.interaction';
-    definition.description = {
-      'en-US': question, // We don't know the language at runtime
-    };
+    definition.interactionType = 'choice';
 
     definition.correctResponsesPattern = [];
-    definition.choices = [];
-    const userResponse = this.params.keywordExtractorGroup.keywords.split(',');
 
+    const userResponse = this.params.keywordExtractorGroup.keywords.split(',');
     definition.choices = userResponse.map((response, index) => {
       return {
         id: `${index}`,
