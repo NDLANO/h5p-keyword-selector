@@ -105,7 +105,7 @@ export default class KeywordSelector extends H5P.EventDispatcher {
    */
   handleAnswered() {
     this.isAnswered = true;
-    this.triggerXAPIEvent('progressed'); // To notify parent and save state
+    this.triggerXAPIEvent('completed'); // To notify parent and save state
   }
 
   /**
