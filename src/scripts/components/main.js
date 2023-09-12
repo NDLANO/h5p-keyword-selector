@@ -73,7 +73,7 @@ export default class Main {
    */
   getCurrentState() {
     return {
-      selected: this.keywordList.getSelectedIndexes()
+      selected: this.getSelectedIndexes()
     };
   }
 
@@ -81,7 +81,7 @@ export default class Main {
    * Reset.
    */
   reset() {
-    this.keywordList.reset();
+    this.keywordList?.reset();
   }
 
   /**
@@ -89,6 +89,10 @@ export default class Main {
    * @returns {number[]} Selectes indexes.
    */
   getSelectedIndexes() {
+    if (!this.keywordList) {
+      return [];
+    }
+
     return this.keywordList.getSelectedIndexes();
   }
 
@@ -97,6 +101,10 @@ export default class Main {
    * @returns {number} Number of selected keywords.
    */
   getSelectedCount() {
+    if (!this.keywordList) {
+      return 0;
+    }
+
     return this.keywordList.getSelectedIndexes().length;
   }
 }
