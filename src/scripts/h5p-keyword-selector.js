@@ -38,7 +38,6 @@ export default class KeywordSelector extends H5P.EventDispatcher {
       }
     }, params);
 
-    this.isAnswered = false;
     this.contentId = contentId;
     this.extras = extras;
 
@@ -104,7 +103,6 @@ export default class KeywordSelector extends H5P.EventDispatcher {
    * Handle answered.
    */
   handleAnswered() {
-    this.isAnswered = true;
     this.triggerXAPIEvent('completed'); // To notify parent and save state
   }
 
@@ -115,6 +113,10 @@ export default class KeywordSelector extends H5P.EventDispatcher {
   getCurrentState() {
     if (!this.params.keywordExtractorGroup.keywords) {
       return;
+    }
+
+    if (!this.getAnswerGiven()) {
+      return; // User has not chosen anything
     }
 
     return { content: this.main.getCurrentState() };

@@ -8,7 +8,7 @@ export default class QuestionTypeContract {
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-1}
    */
   getAnswerGiven() {
-    return this.isAnswered;
+    return this.main.getSelectedCount() > 0;
   }
 
   /**
@@ -42,7 +42,6 @@ export default class QuestionTypeContract {
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-5}
    */
   resetTask() {
-    this.isAnswered = false;
     this.main.reset();
   }
 
