@@ -123,6 +123,14 @@ export default class KeywordSelector extends H5P.EventDispatcher {
   }
 
   /**
+   * Get response as comma separated strings.
+   * @returns {string} Response as comma separated strings.
+   */
+  getResponse() {
+    return this.main.getResponse();
+  }
+
+  /**
    * Get task title.
    * @returns {string} Title.
    */

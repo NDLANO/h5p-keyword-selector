@@ -68,6 +68,14 @@ export default class Main {
   }
 
   /**
+   * Get response as comma separated strings.
+   * @returns {string} Response as comma separated strings.
+   */
+  getResponse() {
+    return this.keywordList.getResponses().join(', ');
+  }
+
+  /**
    * Return H5P core's call to store current state.
    * @returns {object} Current state.
    */
