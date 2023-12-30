@@ -1,6 +1,6 @@
 {
   "name": "h5p-keyword-selector",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Keyword selector for activer reader mode",
   "private": true,
   "scripts": {

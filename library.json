@@ -3,7 +3,7 @@
   "description": "Keyword selector for activer reader mode",
   "majorVersion": 1,
   "minorVersion": 1,
-  "patchVersion": 0,
+  "patchVersion": 1,
   "runnable": 1,
   "author": "Ravi Majithia",
   "license": "MIT",
