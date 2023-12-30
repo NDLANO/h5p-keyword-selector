@@ -30,13 +30,23 @@ export default class KeywordSelector extends H5P.EventDispatcher {
         enableSolutionsButton: false,
         enableRetry: false,
       },
+      behaviour: {
+        requireDoneConfirmation: false,
+        allowEditingAfterDone: true
+      },
       l10n: {
-        noKeywords: 'There are no keywords to select from.'
+        noKeywords: 'There are no keywords to select from.',
+        done: 'Done',
+        edit: 'Edit'
       },
       a11y: {
         keywordsList: 'List of keywords to select from'
       }
     }, params);
+
+    this.params.behaviour.allowEditingAfterDone =
+      this.params.behaviour.allowEditingAfterDone &&
+      this.params.behaviour.requireDoneConfirmation;
 
     this.contentId = contentId;
     this.extras = extras;
@@ -46,6 +56,8 @@ export default class KeywordSelector extends H5P.EventDispatcher {
     this.dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
 
     this.previousState = this.extras?.previousState || {};
+
+    this.isDone = this.previousState?.done || false;
 
     const defaultLanguage = extras?.metadata?.defaultLanguage || 'en';
     this.languageTag = Util.formatLanguageCode(defaultLanguage);
@@ -57,14 +69,18 @@ export default class KeywordSelector extends H5P.EventDispatcher {
       {
         contentText: this.params.keywordExtractorGroup.contentText,
         keywords: this.params.keywordExtractorGroup.keywords?.split(','),
+        behaviour: this.params.behaviour,
         previousState: this.previousState.content,
         l10n: this.params.l10n,
         a11y: this.params.a11y
       },
       {
         onAnswered: () => {
-          this.handleAnswered();
+          this.handleDone();
         },
+        onResized: () => {
+          this.trigger('resize');
+        }
       }
     );
     this.dom.appendChild(this.main.getDOM());
@@ -100,9 +116,10 @@ export default class KeywordSelector extends H5P.EventDispatcher {
   }
 
   /**
-   * Handle answered.
+   * Handle user is done.
    */
-  handleAnswered() {
+  handleDone() {
+    this.isDone = true;
     this.triggerXAPIEvent('completed'); // To notify parent and save state
   }
 
@@ -119,7 +136,10 @@ export default class KeywordSelector extends H5P.EventDispatcher {
       return; // User has not chosen anything
     }
 
-    return { content: this.main.getCurrentState() };
+    return {
+      done: this.isDone,
+      content: this.main.getCurrentState()
+    };
   }
 
   /**

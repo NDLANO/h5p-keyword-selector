@@ -16,6 +16,7 @@ export default class KeywordList {
     this.params = Util.extend({
       keywords: [],
       previouslySeletedIndexes: [],
+      disabled: false,
       a11y: {}
     }, params);
 
@@ -46,6 +47,10 @@ export default class KeywordList {
 
       return keywordItem;
     });
+
+    if (this.params.disabled) {
+      this.disable();
+    }
 
     if (!this.keywordItems.length) {
       return;
@@ -223,9 +228,40 @@ export default class KeywordList {
   }
 
   /**
+   * Determine whether keyword list is disabled or not.
+   * @returns {boolean} True, if disabled, else false.
+   */
+  isDisabled() {
+    return this.isDisabledState;
+  }
+
+  /**
+   * Enable.
+   */
+  enable() {
+    this.keywordItems.forEach((item) => {
+      item.enable();
+    });
+
+    this.isDisabledState = false;
+  }
+
+  /**
+   * Disable.
+   */
+  disable() {
+    this.keywordItems.forEach((item) => {
+      item.disable();
+    });
+
+    this.isDisabledState = true;
+  }
+
+  /**
    * Reset keywords.
    */
   reset() {
+    this.enable();
     this.keywordItems.forEach((item) => {
       item.reset();
     });

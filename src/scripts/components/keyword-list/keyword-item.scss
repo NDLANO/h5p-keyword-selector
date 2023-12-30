@@ -19,4 +19,8 @@
     background-color: $color-primary;
     color: $color-background;
   }
+
+  &[disabled="disabled"] {
+    background-color: $color-disabled;
+  }
 }

@@ -50,6 +50,37 @@
     ]
   },
   {
+    "name": "behaviour",
+    "type": "group",
+    "importance": "low",
+    "label": "Behavioural settings",
+    "fields": [
+      {
+        "name": "requireDoneConfirmation",
+        "type": "boolean",
+        "label": "Require user to confirm done selecting",
+        "optional": true,
+        "default": false
+      },
+      {
+        "name": "allowEditingAfterDone",
+        "type": "boolean",
+        "label": "Allow user to edit after confirming being done",
+        "optional": true,
+        "default": true,
+        "widget": "showWhen",
+        "showWhen": {
+          "rules": [
+            {
+              "field": "requireDoneConfirmation",
+              "equals": true
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
     "name": "l10n",
     "type": "group",
     "label": "User interface",
@@ -63,10 +94,18 @@
         "default": "There are no keywords to select from."
       },
       {
-        "name": "dummy",
+        "name": "done",
         "type": "text",
-        "label": "Dummy",
-        "default": "Dummy"
+        "label": "Done",
+        "description": "Label of button asking for confirming being done.",
+        "default": "Done"
+      },
+      {
+        "name": "edit",
+        "type": "text",
+        "label": "Edit",
+        "description": "Label of button to edit selection after confirming being done.",
+        "default": "Edit"
       }
     ]
   },

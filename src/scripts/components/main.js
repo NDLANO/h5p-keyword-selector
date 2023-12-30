@@ -17,12 +17,17 @@ export default class Main {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       keywords: [],
+      behaviour: {
+        requireDoneConfirmation: false,
+        allowRevertDone: true
+      },
       l10n: {},
       a11y: {}
     }, params);
 
     this.callbacks = Util.extend({
-      onAnswered: () => {}
+      onAnswered: () => {},
+      onResized: () => {}
     }, callbacks);
 
     this.dom = document.createElement('div');
@@ -46,17 +51,60 @@ export default class Main {
       {
         keywords: this.params.keywords,
         previouslySeletedIndexes: this.params.previousState?.selected,
+        disabled: this.params.previousState?.disabled,
         a11y: {
           keywordsList: this.params.a11y.keywordsList
         }
       },
       {
         onChanged: () => {
+          if (this.params.behaviour.requireDoneConfirmation) {
+            return; // User needs to actively confirm being done
+          }
+
           this.callbacks.onAnswered();
         }
       }
     );
     this.dom.append(this.keywordList.getDOM());
+
+    if (this.params.behaviour.requireDoneConfirmation) {
+      this.buttonDone = document.createElement('button');
+      this.buttonDone.classList.add('h5p-joubelui-button');
+      this.buttonDone.classList.add('h5p-keyword-selector-done-button');
+      this.buttonDone.classList.toggle(
+        'display-none', this.params.previousState?.disabled === true
+      );
+      this.buttonDone.innerText = this.params.l10n.done;
+      this.buttonDone.addEventListener('click', () => {
+        this.buttonDone.classList.add('display-none');
+        if (this.params.behaviour.allowEditingAfterDone) {
+          this.buttonEdit.classList.remove('display-none');
+        }
+
+        this.keywordList.disable();
+        this.callbacks.onAnswered();
+        this.callbacks.onResized();
+      });
+      this.dom.append(this.buttonDone);
+
+      this.buttonEdit = document.createElement('button');
+      this.buttonEdit.classList.add('h5p-joubelui-button');
+      this.buttonEdit.classList.add('h5p-keyword-selector-edit-button');
+      this.buttonEdit.classList.toggle(
+        'display-none',
+        this.params.previousState?.disabled !== true ||
+          !this.params.behaviour.allowEditingAfterDone
+      );
+      this.buttonEdit.innerText = this.params.l10n.edit;
+      this.buttonEdit.addEventListener('click', () => {
+        this.buttonEdit.classList.add('display-none');
+        this.buttonDone.classList.remove('display-none');
+        this.keywordList.enable();
+        this.callbacks.onResized();
+      });
+      this.dom.append(this.buttonEdit);
+    }
   }
 
   /**
@@ -81,6 +129,7 @@ export default class Main {
    */
   getCurrentState() {
     return {
+      disabled: this.keywordList.isDisabled(),
       selected: this.getSelectedIndexes()
     };
   }
@@ -89,6 +138,7 @@ export default class Main {
    * Reset.
    */
   reset() {
+    this.buttonDone?.classList.remove('display-none');
     this.keywordList?.reset();
   }
 

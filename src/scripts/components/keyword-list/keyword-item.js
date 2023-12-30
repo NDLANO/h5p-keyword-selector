@@ -66,6 +66,10 @@ export default class KeywordItem {
    * @param {boolean} [state] Optional state to enforce.
    */
   toggleSelected(state) {
+    if (this.isDisabled) {
+      return;
+    }
+
     this.isSelectedState = (typeof state === 'boolean') ?
       state :
       !this.isSelectedState;
@@ -80,13 +84,34 @@ export default class KeywordItem {
    * @param {boolean} state If true, set focus. Else remove.
    */
   toggleFocus(state) {
+    if (this.isDisabled) {
+      return;
+    }
+
     this.dom.classList.toggle('focused', state);
+  }
+
+  /**
+   * Enable.
+   */
+  enable() {
+    this.dom.removeAttribute('disabled');
+    this.isDisabled = false;
+  }
+
+  /**
+   * Disable.
+   */
+  disable() {
+    this.dom.setAttribute('disabled', 'disabled');
+    this.isDisabled = true;
   }
 
   /**
    * Reset.
    */
   reset() {
+    this.enable();
     this.toggleSelected(false);
   }
 }

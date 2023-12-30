@@ -21,6 +21,17 @@
       ]
     },
     {
+      "label": "Behavioural settings",
+      "fields": [
+        {
+          "label": "Require user to confirm done selecting"
+        },
+        {
+          "label": "Allow user to edit after confirming being done"
+        }
+      ]
+    },
+    {
       "label": "User interface",
       "fields": [
         {
@@ -29,8 +40,14 @@
           "default": "There are no keywords to select from."
         },
         {
-          "label": "Dummy",
-          "default": "Dummy"
+          "label": "Done",
+          "description": "Label of button asking for confirming being done.",
+          "default": "Done"
+        },
+        {
+          "label": "Edit",
+          "description": "Label of button to edit selection after confirming being done.",
+          "default": "Edit"
         }
       ]
     },

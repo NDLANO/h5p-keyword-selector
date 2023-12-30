@@ -1,5 +1,26 @@
 @import "@styles/colors";
 
-.h5p-keyword-selector-main-message {
-  color: $error-color;
+.h5p-keyword-selector {
+  .h5p-keyword-selector-main-message {
+    color: $error-color;
+  }
+
+  .h5p-joubelui-button {
+    &.h5p-keyword-selector-done-button {
+      &:before {
+        content: "\F058";
+      }
+    }
+
+    &.h5p-keyword-selector-edit-button {
+      &:before {
+        content: "\F040";
+      }
+    }
+
+    &.display-none {
+      display: none;
+    }
+  }
 }
+

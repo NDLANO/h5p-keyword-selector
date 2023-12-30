@@ -8,7 +8,7 @@ export default class QuestionTypeContract {
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-1}
    */
   getAnswerGiven() {
-    return this.main.getSelectedCount() > 0;
+    return this.isDone || this.main.getSelectedCount() > 0;
   }
 
   /**
@@ -17,7 +17,9 @@ export default class QuestionTypeContract {
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-2}
    */
   getScore() {
-    return (this.main.getSelectedCount() > 0) ? this.getMaxScore() : 0;
+    return (this.isDone || this.main.getSelectedCount() > 0) ?
+      this.getMaxScore() :
+      0;
   }
 
   /**
@@ -42,6 +44,7 @@ export default class QuestionTypeContract {
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-5}
    */
   resetTask() {
+    this.isDone = false;
     this.main.reset();
   }
 
