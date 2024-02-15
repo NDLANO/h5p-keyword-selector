@@ -4,10 +4,6 @@ html {
   box-sizing: border-box;
 }
 
-*, *:before, *:after {
-  box-sizing: inherit;
-}
-
 .h5p-keyword-selector {
   background-color: $color-background;
   color: $color-text;
