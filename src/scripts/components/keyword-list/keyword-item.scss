@@ -1,26 +1,26 @@
-@import "@styles/colors";
+@use "@styles/colors.scss" as colors;
 
 .h5p-keyword-selector-keyword-item {
-  background-color: $color-primary-5;
+  background-color: colors.$color-primary-5;
   border: none;
   border-radius: 0.5rem;
   display: inline-block;
   font-size: 1rem;
   padding: 0.25rem 0.75rem;
-  color: $color-joubelui-button-hover;
+  color: colors.$color-joubelui-button-hover;
   cursor: pointer;
   user-select: none;
 
   &:hover{
-    background-color: $color-primary-10;
+    background-color: colors.$color-primary-10;
   }
 
   &[aria-checked="true"] {
-    background-color: $color-primary;
-    color: $color-background;
+    background-color: colors.$color-primary;
+    color: colors.$color-background;
   }
 
   &[disabled="disabled"] {
-    background-color: $color-disabled;
+    background-color: colors.$color-disabled;
   }
 }

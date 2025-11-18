@@ -1,8 +1,8 @@
-@import "@styles/colors";
+@use "@styles/colors.scss" as colors;
 
 .h5p-keyword-selector {
   .h5p-keyword-selector-main-message {
-    color: $error-color;
+    color: colors.$error-color;
   }
 
   .h5p-joubelui-button {
