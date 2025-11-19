@@ -1,9 +1,9 @@
-import Util from '@services/util';
-import Dictionary from '@services/dictionary';
-import Main from '@components/main';
+import Util from '@services/util.js';
+import Dictionary from '@services/dictionary.js';
+import Main from '@components/main.js';
 import '@styles/h5p-keyword-selector.scss';
-import QuestionTypeContract from './mixins/question-type-contract';
-import XAPI from './mixins/xapi';
+import QuestionTypeContract from './mixins/question-type-contract.js';
+import XAPI from './mixins/xapi.js';
 
 export default class KeywordSelector extends H5P.EventDispatcher {
   /**
