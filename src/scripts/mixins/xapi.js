@@ -44,10 +44,9 @@ export default class XAPI {
 
   /**
    * Create a definition template
-   * @param {string} question Question text
    * @returns {object} XAPI definition template
    */
-  getXAPIDefinition(question) {
+  getXAPIDefinition() {
     let definition = {};
 
     definition.name = {};

@@ -29,8 +29,6 @@ export default class KeywordSelector extends H5P.EventDispatcher {
       behaviour: {
         enableSolutionsButton: false,
         enableRetry: false,
-      },
-      behaviour: {
         requireDoneConfirmation: false,
         allowEditingAfterDone: true
       },
